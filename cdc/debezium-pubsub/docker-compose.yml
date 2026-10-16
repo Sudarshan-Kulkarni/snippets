@@ -1,0 +1,20 @@
+services:
+  debezium:
+    image: quay.io/debezium/server:3.6.3.Final
+    env_file: .env
+    environment:
+      # Environment variables override application.properties, so secrets stay out of the file.
+      DEBEZIUM_SOURCE_DATABASE_HOSTNAME: ${NEON_HOST}
+      DEBEZIUM_SOURCE_DATABASE_USER: ${NEON_USER}
+      DEBEZIUM_SOURCE_DATABASE_PASSWORD: ${NEON_PASSWORD}
+      DEBEZIUM_SOURCE_DATABASE_DBNAME: ${NEON_DBNAME}
+      DEBEZIUM_SINK_PUBSUB_PROJECT_ID: ${GCP_PROJECT_ID}
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/gcp-credentials.json
+    volumes:
+      - ./conf/application.properties:/debezium/config/application.properties:ro
+      - ./secrets/gcp-credentials.json:/secrets/gcp-credentials.json:ro
+      # Named volume so the offset file survives restarts (this is how Debezium resumes).
+      - dbz-data:/debezium/data
+
+volumes:
+  dbz-data:

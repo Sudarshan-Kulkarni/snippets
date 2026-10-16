@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# CDC demo secrets
+cdc/debezium-pubsub/secrets/
