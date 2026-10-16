@@ -41,9 +41,31 @@ flowchart LR
 Debezium stores its position in `offsets.dat`, so after a restart it resumes where it stopped.
 
 ## Prerequisites
-- A Neon project with **logical replication enabled** (Project settings; this cannot be undone).
+- A Neon project with **logical replication enabled** (see [Neon setup](#neon-setup)).
 - A GCP project with the Pub/Sub API enabled, and `gcloud` logged in.
 - Docker with Compose (for example Colima).
+
+## Neon setup
+
+### 1. Enable logical replication
+In the Neon console: open your project, go to **Settings → Logical Replication**, and enable it.
+
+- This sets `wal_level = logical`, which Debezium needs to read row changes from the WAL.
+- It restarts the project's compute, and it **cannot be undone** for that project.
+- To verify, run this in the Neon SQL editor (it should return `logical`):
+  ```sql
+  SHOW wal_level;
+  ```
+
+### 2. Use the direct connection (turn off connection pooling)
+In the Neon console, click **Connect** and turn **Connection pooling** off. The host should then look like
+`ep-xxxx.region.aws.neon.tech`, with no `-pooler` in it. Use that value for `NEON_HOST` in `.env`.
+
+**Why:** the pooled endpoint goes through PgBouncer in transaction mode, which hands your session to
+different backend connections between transactions. Debezium instead holds one long-lived
+replication connection tied to a single replication slot, using Postgres's streaming replication
+protocol, and PgBouncer doesn't proxy that protocol. On the pooled host, Debezium fails when it tries to
+create the slot or start streaming.
 
 ## Setup
 ```bash
@@ -58,6 +80,9 @@ gcloud auth application-default login
 mkdir -p secrets
 cp ~/.config/gcloud/application_default_credentials.json secrets/gcp-credentials.json
 chmod 644 secrets/gcp-credentials.json   # the container runs as a non-root user
+# Do this BEFORE `docker compose up`: if the file is missing, Docker creates an empty
+# directory with that name, and Debezium fails with "File does not exist".
+# If that happens: docker compose down; rmdir secrets/gcp-credentials.json; then copy again.
 
 python setup_db.py          # table + publication on Neon
 python create_resources.py  # Pub/Sub topic + subscription
