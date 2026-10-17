@@ -18,12 +18,12 @@ output "parsed_topic_name" {
   value       = google_pubsub_topic.pdf_parsed.name
 }
 
-output "parsed_subscription_name" {
-  description = "Stage 2 Pub/Sub subscription for inspecting parsed PDF events"
-  value       = google_pubsub_subscription.pdf_parsed_sub.name
+output "summarizer_function_uri" {
+  description = "HTTPS push URI of the Stage 3 PDF Summarizer Cloud Function"
+  value       = google_cloudfunctions2_function.pdf_summarizer.service_config[0].uri
 }
 
 output "bigquery_parsed_table" {
-  description = "Full BigQuery table reference for parsed PDFs"
+  description = "Full BigQuery table reference for parsed PDFs and summaries"
   value       = "${var.project_id}.${google_bigquery_dataset.pdf_pipeline.dataset_id}.${google_bigquery_table.parsed_documents.table_id}"
 }

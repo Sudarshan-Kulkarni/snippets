@@ -21,14 +21,20 @@ variable "parsed_topic_id" {
   default     = "pdf-parsed"
 }
 
-variable "parsed_subscription_id" {
-  description = "Stage 2 Pub/Sub subscription for inspecting / consuming parsed PDF events"
-  type        = string
-  default     = "pdf-parsed-sub"
-}
-
 variable "bq_dataset_id" {
   description = "BigQuery dataset ID for storing parsed PDFs and summaries"
   type        = string
   default     = "pdf_pipeline"
+}
+
+variable "gemini_api_key" {
+  description = "Google AI Studio API key for Gemini summarization"
+  type        = string
+  sensitive   = true
+}
+
+variable "gemini_model" {
+  description = "Gemini model ID used by the summarizer function"
+  type        = string
+  default     = "gemini-3.8-flash"
 }

@@ -88,19 +88,13 @@ resource "google_storage_notification" "pdf_upload_notification" {
   depends_on = [google_pubsub_topic_iam_member.gcs_publisher]
 }
 
-# 6. Stage 2 Pub/Sub Topic & Subscription (receives parsed PDF events for LLM summarization)
+# 6. Stage 2 Pub/Sub Topic (receives parsed PDF events; Eventarc creates the Push Subscription)
 resource "google_pubsub_topic" "pdf_parsed" {
   name       = var.parsed_topic_id
   depends_on = [google_project_service.apis["pubsub.googleapis.com"]]
 }
 
-resource "google_pubsub_subscription" "pdf_parsed_sub" {
-  name                 = var.parsed_subscription_id
-  topic                = google_pubsub_topic.pdf_parsed.id
-  ack_deadline_seconds = 120
-}
-
-# 7. BigQuery Dataset & Table for raw parsed PDF contents
+# 7. BigQuery Dataset & Table for raw parsed PDF contents + LLM summary
 resource "google_bigquery_dataset" "pdf_pipeline" {
   dataset_id                 = var.bq_dataset_id
   location                   = var.region
@@ -123,14 +117,14 @@ resource "google_bigquery_table" "parsed_documents" {
     { name = "char_count", type = "INT64", mode = "REQUIRED" },
     { name = "raw_text", type = "STRING", mode = "REQUIRED" },
     { name = "parsed_at", type = "TIMESTAMP", mode = "REQUIRED" },
+    { name = "summary", type = "STRING", mode = "NULLABLE" },
+    { name = "summarized_at", type = "TIMESTAMP", mode = "NULLABLE" },
   ])
 }
 
-# 8. Least-Privilege Service Account for the Stage 2 PDF Parser Cloud Function
+# 8. Cloud Build permissions for the default Compute Engine service account
 data "google_project" "current" {}
 
-# In newer GCP projects, the default Compute Engine service account used by Cloud Build
-# to package 2nd Gen Cloud Functions does not automatically have build permissions.
 locals {
   build_sa_roles = [
     "roles/cloudbuild.builds.builder",
@@ -147,6 +141,7 @@ resource "google_project_iam_member" "build_sa_permissions" {
   member   = "serviceAccount:${data.google_project.current.number}-compute@developer.gserviceaccount.com"
 }
 
+# 9. Stage 2: Least-Privilege Service Account & Cloud Function (PDF Parser)
 resource "google_service_account" "parser_sa" {
   account_id   = "pdf-parser-fn-sa"
   display_name = "PDF Parser Cloud Function Service Account"
@@ -167,7 +162,7 @@ resource "google_bigquery_dataset_iam_member" "parser_bq_editor" {
 resource "google_project_iam_member" "parser_bq_job_user" {
   project = var.project_id
   role    = "roles/bigquery.jobUser"
-  member   = "serviceAccount:${google_service_account.parser_sa.email}"
+  member  = "serviceAccount:${google_service_account.parser_sa.email}"
 }
 
 resource "google_pubsub_topic_iam_member" "parser_pubsub_publisher" {
@@ -176,7 +171,6 @@ resource "google_pubsub_topic_iam_member" "parser_pubsub_publisher" {
   member = "serviceAccount:${google_service_account.parser_sa.email}"
 }
 
-# 9. Zip and upload ../functions/parser/ source code
 data "archive_file" "parser_zip" {
   type        = "zip"
   source_dir  = "${path.module}/../functions/parser"
@@ -189,7 +183,6 @@ resource "google_storage_bucket_object" "parser_zip_object" {
   source = data.archive_file.parser_zip.output_path
 }
 
-# 10. Stage 2 Cloud Function (2nd Gen) triggered via Push when a message lands on pdf-uploaded
 resource "google_cloudfunctions2_function" "pdf_parser" {
   name        = "pdf-parser"
   location    = var.region
@@ -243,10 +236,98 @@ resource "google_cloudfunctions2_function" "pdf_parser" {
   ]
 }
 
-# Allow the trigger service account to invoke the underlying Cloud Run service over HTTPS
 resource "google_cloud_run_service_iam_member" "parser_invoker" {
   location = google_cloudfunctions2_function.pdf_parser.location
   service  = google_cloudfunctions2_function.pdf_parser.name
   role     = "roles/run.invoker"
   member   = "serviceAccount:${google_service_account.parser_sa.email}"
+}
+
+# 10. Stage 3: Least-Privilege Service Account & Cloud Function (Gemini Summarizer)
+resource "google_service_account" "summarizer_sa" {
+  account_id   = "pdf-summarizer-fn-sa"
+  display_name = "PDF Summarizer Cloud Function Service Account"
+}
+
+resource "google_bigquery_dataset_iam_member" "summarizer_bq_editor" {
+  dataset_id = google_bigquery_dataset.pdf_pipeline.dataset_id
+  role       = "roles/bigquery.dataEditor"
+  member     = "serviceAccount:${google_service_account.summarizer_sa.email}"
+}
+
+resource "google_project_iam_member" "summarizer_bq_job_user" {
+  project = var.project_id
+  role    = "roles/bigquery.jobUser"
+  member  = "serviceAccount:${google_service_account.summarizer_sa.email}"
+}
+
+data "archive_file" "summarizer_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/../functions/summarizer"
+  output_path = "${path.module}/summarizer-source.zip"
+}
+
+resource "google_storage_bucket_object" "summarizer_zip_object" {
+  name   = "summarizer-${data.archive_file.summarizer_zip.output_md5}.zip"
+  bucket = google_storage_bucket.fn_source_bucket.name
+  source = data.archive_file.summarizer_zip.output_path
+}
+
+resource "google_cloudfunctions2_function" "pdf_summarizer" {
+  name        = "pdf-summarizer"
+  location    = var.region
+  description = "Summarizes parsed PDF text with Gemini and updates the BigQuery row"
+
+  build_config {
+    runtime     = "python312"
+    entry_point = "summarize_pdf_event"
+    source {
+      storage_source {
+        bucket = google_storage_bucket.fn_source_bucket.name
+        object = google_storage_bucket_object.summarizer_zip_object.name
+      }
+    }
+  }
+
+  service_config {
+    min_instance_count    = 0
+    max_instance_count    = 1
+    available_memory      = "512M"
+    timeout_seconds       = 120
+    service_account_email = google_service_account.summarizer_sa.email
+
+    environment_variables = {
+      GCP_PROJECT_ID     = var.project_id
+      BQ_DATASET_ID      = google_bigquery_dataset.pdf_pipeline.dataset_id
+      BQ_PARSED_TABLE_ID = google_bigquery_table.parsed_documents.table_id
+      GEMINI_API_KEY     = var.gemini_api_key
+      GEMINI_MODEL       = var.gemini_model
+    }
+  }
+
+  event_trigger {
+    trigger_region        = var.region
+    event_type            = "google.cloud.pubsub.topic.v1.messagePublished"
+    pubsub_topic          = google_pubsub_topic.pdf_parsed.id
+    retry_policy          = "RETRY_POLICY_RETRY"
+    service_account_email = google_service_account.summarizer_sa.email
+  }
+
+  depends_on = [
+    google_project_service.apis["cloudfunctions.googleapis.com"],
+    google_project_service.apis["run.googleapis.com"],
+    google_project_service.apis["cloudbuild.googleapis.com"],
+    google_project_service.apis["artifactregistry.googleapis.com"],
+    google_project_service.apis["eventarc.googleapis.com"],
+    google_project_iam_member.build_sa_permissions,
+    google_bigquery_dataset_iam_member.summarizer_bq_editor,
+    google_project_iam_member.summarizer_bq_job_user,
+  ]
+}
+
+resource "google_cloud_run_service_iam_member" "summarizer_invoker" {
+  location = google_cloudfunctions2_function.pdf_summarizer.location
+  service  = google_cloudfunctions2_function.pdf_summarizer.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${google_service_account.summarizer_sa.email}"
 }

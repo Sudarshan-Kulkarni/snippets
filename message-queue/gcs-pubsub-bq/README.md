@@ -16,6 +16,7 @@ Cloud Function) is provisioned and torn down with **Terraform** .
 3. **In-Memory PDF Extraction (`PyMuPDF`):** The function downloads the PDF bytes  and extracts text.
 4. ** BigQuery Batch Load:** The function writes the extracted text and metadata into BigQuery using a Batch Load job.
 5. **Downstream Queue (`pdf-parsed`):** The function publishes the extracted text to Topic 2 (`pdf-parsed`) and returns `HTTP 200 OK` so Pub/Sub acknowledges and deletes the Stage 1 message.
+6. **LLM Summarization (`pdf-summarizer`):** Eventarc pushes the `pdf-parsed` event to the second Cloud Function (`pdf-summarizer`), which calls the Gemini API (`gemini-3.8-flash` via `google-genai`) and runs a parameterized BigQuery `UPDATE` to populate `summary` and `summarized_at` on the existing `parsed_documents` row.
 
 ## Folder Structure
 
@@ -24,13 +25,16 @@ message-queue/gcs-pubsub-bq/
 ├── assets/
 │   └── architecture.excalidraw.svg
 ├── functions/
-│   └── parser/
-│       ├── main.py             # 2nd Gen Cloud Function (@functions_framework.cloud_event)
-│       └── requirements.txt    # Function dependencies installed by Cloud Build
+│   ├── parser/
+│   │   ├── main.py             # Stage 1: PDF extraction & BigQuery load (@functions_framework.cloud_event)
+│   │   └── requirements.txt    # Parser dependencies installed by Cloud Build
+│   └── summarizer/
+│       ├── main.py             # Stage 2: Gemini summarization & BigQuery UPDATE (@functions_framework.cloud_event)
+│       └── requirements.txt    # Summarizer dependencies installed by Cloud Build
 └── terraform/
     ├── main.tf                 # GCS, Pub/Sub, BigQuery, IAM, and Cloud Function resources
     ├── variables.tf            # Input variables
-    ├── outputs.tf              # Created resource names and function URI
+    ├── outputs.tf              # Created resource names and function URIs
     └── terraform.tfvars.example
 ```
 
@@ -41,7 +45,7 @@ message-queue/gcs-pubsub-bq/
 gcloud auth application-default login
 
 cd message-queue/gcs-pubsub-bq/terraform
-cp terraform.tfvars.example terraform.tfvars   # set project_id = "your-gcp-project-id"
+cp terraform.tfvars.example terraform.tfvars   # set project_id and gemini_api_key
 
 terraform init
 terraform apply
@@ -57,11 +61,11 @@ Upload any text-based PDF to the ingest bucket (via the GCP Console UI or CLI):
 gcloud storage cp /path/to/sample.pdf gs://<your-project-id>-pdf-ingest/
 ```
 
- BigQuery to verify the parsed row arrived:
+Query BigQuery to verify the parsed row and LLM summary arrived:
 
 ```bash
 bq query --use_legacy_sql=false \
-  'SELECT doc_id, object_name, page_count, char_count, parsed_at
+  'SELECT doc_id, object_name, page_count, char_count, parsed_at, summarized_at, SUBSTR(summary, 1, 200) AS summary_preview
    FROM `<your-project-id>.pdf_pipeline.parsed_documents`
    ORDER BY parsed_at DESC LIMIT 5'
 ```
