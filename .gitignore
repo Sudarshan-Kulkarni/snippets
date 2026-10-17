@@ -221,3 +221,12 @@ __marimo__/
 
 # CDC demo secrets
 cdc/debezium-pubsub/secrets/
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl
+message-queue/gcs-pubsub-bq/terraform/*.zip

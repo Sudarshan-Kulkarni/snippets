@@ -12,5 +12,6 @@ Each subfolder is a self-contained implementation with its own dependencies and 
 | Folder | Broker | Where it runs | Status |
 |---|---|---|---|
 | [gcp-pubsub](gcp-pubsub/) | Google Cloud Pub/Sub | Cloud (free tier) | Basic publish and consume |
+| [gcs-pubsub-bq](gcs-pubsub-bq/) | Google Cloud Pub/Sub | Cloud (Terraform + Cloud Functions) | Event-driven GCS PDF parser to BigQuery |
 | `kafka-local` | Apache Kafka | Local container | Planned |
 | `aws-sqs` | Amazon SQS | Cloud (free tier) | Planned |
