@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSE Lyric Notifications — Eminem - Venom</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --red: #f85149;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 900px;
+      margin-inline: auto;
+    }
+    h1 { margin-top: 0; font-size: 1.5rem; }
+    p.sub { color: var(--muted); margin-top: -0.4rem; margin-bottom: 1.5rem; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    input[type="text"], input[type="number"] {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.95rem;
+    }
+    button {
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    button.danger {
+      background: var(--red);
+      color: #fff;
+    }
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.9rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .badge.connected { background: rgba(63, 185, 80, 0.2); color: var(--green); }
+    .badge.idle { background: rgba(139, 148, 158, 0.2); color: var(--muted); }
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+    .event-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      align-items: center;
+    }
+    .lyric-line {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .lyric-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    pre.wire {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(88, 166, 255, 0.07);
+      padding: 0.5rem;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎵 Server-Sent Events (SSE) → macOS Lyric Notifications</h1>
+  <p class="sub">Streams song lyrics from SQLite over a single open HTTP connection (<code>text/event-stream</code>) and fires a native macOS Notification banner every 5 seconds.</p>
+
+  <div class="card">
+    <div class="controls">
+      <div class="field" style="flex: 1; min-width: 180px;">
+        <label for="songInput">Song Name (in SQLite)</label>
+        <input id="songInput" type="text" value="Venom" placeholder="e.g. Venom" />
+      </div>
+      <div class="field" style="width: 110px;">
+        <label for="intervalInput">Interval (sec)</label>
+        <input id="intervalInput" type="number" value="5" min="1" max="60" step="1" />
+      </div>
+      <div class="field" style="justify-content: center; padding-bottom: 0.35rem;">
+        <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--text);">
+          <input id="replaceBanner" type="checkbox" checked />
+          Replace banner in-place
+        </label>
+      </div>
+      <button id="startBtn">▶ Start Streaming</button>
+      <button id="dropBtn" class="secondary" disabled>⚡ Simulate Disconnect &amp; Resume</button>
+      <button id="stopBtn" class="danger" disabled>■ Stop</button>
+    </div>
+
+    <div class="status-row">
+      <div>
+        SSE Stream: <span id="streamBadge" class="badge idle">Disconnected</span>
+        &nbsp;|&nbsp; Last Event ID: <code id="lastIdDisplay">—</code>
+      </div>
+      <div>
+        macOS Notifications: <strong id="permStatus">checking...</strong>
+        <button id="testNotifBtn" class="secondary" style="padding: 0.25rem 0.6rem; margin-left: 0.5rem; font-size: 0.78rem;">Test Banner</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.85rem; color: var(--muted);">
+      <span>Received Notification</span>
+      <span>Raw SSE Wire Frame (<code>text/event-stream</code>)</span>
+    </div>
+    <div id="feed" class="feed">
+      <div style="color: var(--muted); font-size: 0.9rem;">Click <strong>Start Streaming</strong> above to open the SSE stream and start receiving macOS notifications...</div>
+    </div>
+  </div>
+
+  <script>
+    let eventSource = null;
+    let lastEventId = 0;
+
+    const songInput = document.getElementById("songInput");
+    const intervalInput = document.getElementById("intervalInput");
+    const replaceBanner = document.getElementById("replaceBanner");
+    const startBtn = document.getElementById("startBtn");
+    const dropBtn = document.getElementById("dropBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const testNotifBtn = document.getElementById("testNotifBtn");
+    const streamBadge = document.getElementById("streamBadge");
+    const lastIdDisplay = document.getElementById("lastIdDisplay");
+    const permStatus = document.getElementById("permStatus");
+    const feed = document.getElementById("feed");
+
+    function updatePermissionUI() {
+      if (!("Notification" in window)) {
+        permStatus.textContent = "Unsupported in this browser";
+        return;
+      }
+      permStatus.textContent = Notification.permission;
+    }
+    updatePermissionUI();
+
+    async function ensureNotificationPermission() {
+      if (!("Notification" in window)) return false;
+      if (Notification.permission === "granted") return true;
+      const result = await Notification.requestPermission();
+      updatePermissionUI();
+      return result === "granted";
+    }
+
+    function sendMacNotification(title, body) {
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+      const options = { body, silent: false };
+      if (replaceBanner.checked) {
+        options.tag = "sse-lyric-stream";
+        options.renotify = true;
+      }
+      new Notification(title, options);
+    }
+
+    testNotifBtn.addEventListener("click", async () => {
+      const ok = await ensureNotificationPermission();
+      if (ok) {
+        sendMacNotification("🎵 SSE Test Notification", "macOS browser notifications are working!");
+      } else {
+        alert("Please allow notifications in your browser and macOS System Settings -> Notifications.");
+      }
+    });
+
+    function connectStream(resumeId = null) {
+      if (eventSource) {
+        eventSource.close();
+      }
+
+      const song = songInput.value.trim() || "Venom";
+      const interval = parseFloat(intervalInput.value) || 5;
+      let url = `/stream?song=${encodeURIComponent(song)}&interval=${interval}`;
+      if (resumeId !== null && resumeId > 0) {
+        url += `&last_id=${resumeId}`;
+      }
+
+      eventSource = new EventSource(url);
+      streamBadge.textContent = "Connected (Streaming)";
+      streamBadge.className = "badge connected";
+      startBtn.disabled = true;
+      dropBtn.disabled = false;
+      stopBtn.disabled = false;
+
+      eventSource.addEventListener("connected", (e) => {
+        const info = JSON.parse(e.data);
+        if (resumeId === null) {
+          feed.innerHTML = "";
+        }
+        const row = document.createElement("div");
+        row.style.color = "var(--green)";
+        row.style.fontSize = "0.85rem";
+        row.textContent = info.resumed_after_line > 0
+          ? `↻ Reconnected! Resuming "${info.artist} - ${info.song}" after line #${info.resumed_after_line} (every ${info.interval_seconds}s)`
+          : `✓ Connected to "${info.artist} - ${info.song}" (${info.total_lines} lines, 1 line every ${info.interval_seconds}s)`;
+        feed.prepend(row);
+      });
+
+      eventSource.addEventListener("lyric", (e) => {
+        const payload = JSON.parse(e.data);
+        lastEventId = parseInt(e.lastEventId, 10) || payload.line_number;
+        lastIdDisplay.textContent = lastEventId;
+
+        const title = `🎵 ${payload.artist} — ${payload.song} (${payload.line_number}/${payload.total_lines})`;
+        sendMacNotification(title, payload.text);
+
+        const item = document.createElement("div");
+        item.className = "event-item";
+        const wireText = `id: ${e.lastEventId}\nevent: lyric\ndata: ${e.data}`;
+        item.innerHTML = `
+          <div>
+            <div class="lyric-meta">${payload.artist} • ${payload.song} — Line ${payload.line_number} of ${payload.total_lines}</div>
+            <div class="lyric-line">${payload.text}</div>
+          </div>
+          <pre class="wire"></pre>
+        `;
+        item.querySelector("pre.wire").textContent = wireText;
+        feed.prepend(item);
+      });
+
+      eventSource.addEventListener("complete", (e) => {
+        const payload = JSON.parse(e.data);
+        sendMacNotification(`✅ ${payload.song}`, payload.message);
+        stopStream("Finished");
+      });
+
+      eventSource.onerror = () => {
+        streamBadge.textContent = "Reconnecting / Error";
+        streamBadge.className = "badge idle";
+      };
+    }
+
+    function stopStream(label = "Disconnected") {
+      if (eventSource) {
+        eventSource.close();
+        eventSource = null;
+      }
+      streamBadge.textContent = label;
+      streamBadge.className = "badge idle";
+      startBtn.disabled = false;
+      dropBtn.disabled = true;
+      stopBtn.disabled = true;
+    }
+
+    startBtn.addEventListener("click", async () => {
+      await ensureNotificationPermission();
+      lastEventId = 0;
+      lastIdDisplay.textContent = "0";
+      connectStream(null);
+    });
+
+    dropBtn.addEventListener("click", () => {
+      if (!eventSource) return;
+      eventSource.close();
+      eventSource = null;
+      streamBadge.textContent = "Simulated Drop (3s)...";
+      streamBadge.className = "badge idle";
+      dropBtn.disabled = true;
+
+      const msg = document.createElement("div");
+      msg.style.color = "var(--red)";
+      msg.style.fontSize = "0.85rem";
+      msg.textContent = `⚡ Connection dropped at line #${lastEventId}. Reconnecting in 3s with Last-Event-ID=${lastEventId}...`;
+      feed.prepend(msg);
+
+      setTimeout(() => {
+        connectStream(lastEventId);
+      }, 3000);
+    });
+
+    stopBtn.addEventListener("click", () => stopStream("Stopped"));
+  </script>
+</body>
+</html>
