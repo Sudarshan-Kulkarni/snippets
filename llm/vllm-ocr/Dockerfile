@@ -32,4 +32,4 @@ RUN pip3 install --upgrade pip && \
 EXPOSE 8000
 
 # Default entrypoint
-CMD ["vllm", "serve", "google/paligemma-3b-pt-448", "--host", "0.0.0.0", "--port", "8000", "--dtype", "bfloat16", "--enforce-eager", "--trust-remote-code"]
+CMD ["vllm", "serve", "google/paligemma2-3b-mix-448", "--host", "0.0.0.0", "--port", "8000", "--dtype", "bfloat16", "--enforce-eager", "--trust-remote-code"]

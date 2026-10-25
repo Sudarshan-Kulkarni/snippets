@@ -2,7 +2,7 @@
 
 A minimal setup to containerize a vision-language model with **vLLM** and deploy it serverless on **Modal** using an NVIDIA L4 GPU.
 
-* **Model:** [`google/paligemma-3b-pt-448`](https://huggingface.co/google/paligemma-3b-pt-448)
+* **Model:** [`google/paligemma2-3b-mix-448`](https://huggingface.co/google/paligemma2-3b-mix-448)
 * **Storage:** Persistent Modal Volume (`vllm-model-cache`) to cache weights across cold starts.
 
 ---

@@ -50,7 +50,7 @@ def run_ocr(endpoint_url: str, image_path: str, prompt: str = "ocr"):
     print("Waiting for OCR response...")
 
     response = client.chat.completions.create(
-        model="google/paligemma-3b-pt-448",
+        model="google/paligemma2-3b-mix-448",
         messages=[
             {
                 "role": "user",

@@ -14,7 +14,7 @@ if env_file.exists():
                 os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 dockerfile_path = Path(__file__).parent / "Dockerfile"
-MODEL_NAME = "google/paligemma-3b-pt-448"
+MODEL_NAME = "google/paligemma2-3b-mix-448"
 
 app = modal.App("vllm-ocr-paligemma")
 
@@ -35,8 +35,9 @@ hf_cache_volume = modal.Volume.from_name("vllm-model-cache", create_if_missing=T
 @modal.web_server(port=8000, startup_timeout=600)
 def serve():
     """Starts the vLLM OpenAI-compatible server as a background subprocess."""
+    model_name = "google/paligemma2-3b-mix-448"
     cmd = [
-        "vllm", "serve", MODEL_NAME,
+        "vllm", "serve", model_name,
         "--host", "0.0.0.0",
         "--port", "8000",
         "--dtype", "bfloat16",
