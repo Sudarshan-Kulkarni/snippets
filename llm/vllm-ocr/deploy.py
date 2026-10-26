@@ -26,12 +26,14 @@ hf_cache_volume = modal.Volume.from_name("vllm-model-cache", create_if_missing=T
 
 @app.function(
     image=image,
-    gpu="L4",                       
+    gpu="T4",                       
     volumes={"/root/.cache/huggingface": hf_cache_volume},
     secrets=[modal.Secret.from_name("hf-secret")], 
     timeout=600,
-    scaledown_window=300,          
+    scaledown_window=300,
+    max_containers=1,
 )
+@modal.concurrent(max_inputs=32)
 @modal.web_server(port=8000, startup_timeout=600)
 def serve():
     """Starts the vLLM OpenAI-compatible server as a background subprocess."""
@@ -40,7 +42,7 @@ def serve():
         "vllm", "serve", model_name,
         "--host", "0.0.0.0",
         "--port", "8000",
-        "--dtype", "bfloat16",
+        "--dtype", "float16",
         "--max-model-len", "4096",
         "--gpu-memory-utilization", "0.90",
         "--enforce-eager",

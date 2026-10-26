@@ -230,3 +230,7 @@ cdc/debezium-pubsub/secrets/
 !*.tfvars.example
 .terraform.lock.hcl
 message-queue/gcs-pubsub-bq/terraform/*.zip
+
+# vLLM OCR scratch/benchmark scripts
+llm/vllm-ocr/test_batch.py
+llm/vllm-ocr/benchmark.py
