@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: "Text-Based Model Evals (google/gemma-1.1-2b-it on Modal vLLM)"
+
+prompts:
+  - "Answer the following request clearly and concisely:\n\n{{prompt}}"
+  - "Respond to the following request while strictly following every constraint:\n\n{{prompt}}"
+
+providers:
+  - id: openai:chat:google/gemma-1.1-2b-it
+    label: "Gemma-1.1-2B-IT (vLLM on Modal T4)"
+    config:
+      apiBaseUrl: "{{env.VLLM_BASE_URL}}"
+      apiKey: "dummy-key"
+      temperature: 0.1
+      max_tokens: 256
+
+# Configure the LLM-as-a-Judge (`llm-rubric`) to use the SAME Gemma-1.1-2B-IT endpoint
+defaultTest:
+  options:
+    provider:
+      id: openai:chat:google/gemma-1.1-2b-it
+      config:
+        apiBaseUrl: "{{env.VLLM_BASE_URL}}"
+        apiKey: "dummy-key"
+        temperature: 0.0
+        max_tokens: 256
+
+tests:
+  - description: "1. r/PeterExplains - Message Queues"
+    vars:
+      prompt: "Explain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+    assert:
+      - type: icontains-any
+        value: ["Peter", "Griffin", "Stewie", "Brian", "Lois", "Quagmire", "Meg", "Chris", "Joe", "Cleveland"]
+      - type: llm-rubric
+        value: "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue."
+
+  - description: "2. r/PeterExplains - Load Balancers"
+    vars:
+      prompt: "Explain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+    assert:
+      - type: icontains-any
+        value: ["Peter", "Griffin", "Stewie", "Brian", "Lois", "Quagmire", "Meg", "Chris", "Joe", "Cleveland"]
+      - type: llm-rubric
+        value: "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer."

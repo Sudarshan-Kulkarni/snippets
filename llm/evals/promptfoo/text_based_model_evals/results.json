@@ -1,0 +1,1426 @@
+{
+  "evalId": "eval-UbE-2026-10-29T14:14:44",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-10-29T14:14:44.174Z",
+    "prompts": [
+      {
+        "id": "f58d1e17d67e5069b3aa27a58bcc308b294fa6ffb37beb57ace4b86b8a5cbb41",
+        "raw": "Answer the following request clearly and concisely:\n\n{{prompt}}",
+        "label": "Answer the following request clearly and concisely:\n\n{{prompt}}",
+        "provider": "Gemma-1.1-2B-IT (vLLM on Modal T4)",
+        "metrics": {
+          "score": 2.5,
+          "testPassCount": 2,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "testCacheHitCount": 2,
+          "assertPassCount": 4,
+          "assertFailCount": 0,
+          "totalLatencyMs": 50256,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 510,
+            "total": 510,
+            "numRequests": 2,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 906,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 906,
+              "numRequests": 2,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            },
+            "incurredTokenUsage": {
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "total": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              },
+              "assertions": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0,
+                  "cacheReadInputTokens": 0,
+                  "cacheCreationInputTokens": 0
+                }
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0
+        }
+      },
+      {
+        "id": "e4d457f473f684b347e5d8d7db9e4f5f59019359872378854fbcaabe5dfcdf26",
+        "raw": "Respond to the following request while strictly following every constraint:\n\n{{prompt}}",
+        "label": "Respond to the following request while strictly following every constraint:\n\n{{prompt}}",
+        "provider": "Gemma-1.1-2B-IT (vLLM on Modal T4)",
+        "metrics": {
+          "score": 2.5,
+          "testPassCount": 2,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "testCacheHitCount": 0,
+          "assertPassCount": 4,
+          "assertFailCount": 0,
+          "totalLatencyMs": 132093,
+          "tokenUsage": {
+            "prompt": 115,
+            "completion": 469,
+            "cached": 0,
+            "total": 584,
+            "numRequests": 2,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 983,
+              "prompt": 908,
+              "completion": 75,
+              "cached": 0,
+              "numRequests": 2,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1.25,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 499,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 499,
+            "numRequests": 1,
+            "incurredTokenUsage": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0
+            },
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "icontains-any",
+                "value": [
+                  "Peter",
+                  "Griffin",
+                  "Stewie",
+                  "Brian",
+                  "Lois",
+                  "Quagmire",
+                  "Meg",
+                  "Chris",
+                  "Joe",
+                  "Cleveland"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue."
+              },
+              "pass": true,
+              "score": 1.5,
+              "reason": "introduction provides context and explains the purpose of message queues",
+              "tokensUsed": {
+                "total": 499,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 499,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "alt-svc": "h3=\":443\"; ma=2592000",
+                    "content-length": "830",
+                    "content-type": "application/json",
+                    "date": "Thu, 29 Oct 2026 14:07:07 GMT",
+                    "modal-function-call-id": "fc-01M63ZRSR62BSC7R7P1WZ17ZYK",
+                    "vary": "Origin,accept-encoding"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n## Peter Explains: Message Queue System Design\\n\\nYo, folks! Peter here, and today I wanna explain the juicy concept of message queues!\\n\\nImagine a giant mailbox overflowing with letters. That's like a message queue! Messages are like letters, waiting to be delivered to the right people.\\n\\nThink of a message queue like a central post office. A sender puts a letter in the queue, and other characters (like receivers) subscribe to that queue. When a new letter arrives, it's delivered to the appropriate receiver.\\n\\nThis way, messages are:\\n\\n* **Reliable:** They're stored safely until they're sent.\\n* **Distributed:** They travel to different characters, ensuring everyone gets their message.\\n* **Efficient:** They're delivered quickly and in the correct order.\\n\\nSo, message queues are like a communication system that makes sure messages get to the right people at the right time. They're super useful for things like:\\n\\n* **Real-time notifications:** Think Peter getting notified about Chris's new beard.\\n* **Task processing:** Imagine Peter assigning Chris a delivery task.\\n* **Email systems:** Messages go to the appropriate inbox.\\n</Output>\\n<Rubric>\\nThe output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue.\\n</Rubric>\"}]",
+                "cachedResponse": true
+              }
+            }
+          ]
+        },
+        "id": "fa63d8e1-f16d-454c-a930-81ece3c4d08a",
+        "latencyMs": 26203,
+        "namedScores": {},
+        "prompt": {
+          "raw": "Answer the following request clearly and concisely:\n\nExplain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept.",
+          "label": "Answer the following request clearly and concisely:\n\n{{prompt}}",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          }
+        },
+        "promptId": "f58d1e17d67e5069b3aa27a58bcc308b294fa6ffb37beb57ace4b86b8a5cbb41",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:chat:google/gemma-1.1-2b-it",
+          "label": "Gemma-1.1-2B-IT (vLLM on Modal T4)"
+        },
+        "response": {
+          "output": "## Peter Explains: Message Queue System Design\n\nYo, folks! Peter here, and today I wanna explain the juicy concept of message queues!\n\nImagine a giant mailbox overflowing with letters. That's like a message queue! Messages are like letters, waiting to be delivered to the right people.\n\nThink of a message queue like a central post office. A sender puts a letter in the queue, and other characters (like receivers) subscribe to that queue. When a new letter arrives, it's delivered to the appropriate receiver.\n\nThis way, messages are:\n\n* **Reliable:** They're stored safely until they're sent.\n* **Distributed:** They travel to different characters, ensuring everyone gets their message.\n* **Efficient:** They're delivered quickly and in the correct order.\n\nSo, message queues are like a communication system that makes sure messages get to the right people at the right time. They're super useful for things like:\n\n* **Real-time notifications:** Think Peter getting notified about Chris's new beard.\n* **Task processing:** Imagine Peter assigning Chris a delivery task.\n* **Email systems:** Messages go to the appropriate inbox.",
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 298,
+            "total": 298,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            },
+            "incurredTokenUsage": {
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "total": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              },
+              "assertions": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0,
+                  "cacheReadInputTokens": 0,
+                  "cacheCreationInputTokens": 0
+                }
+              }
+            }
+          },
+          "cached": true,
+          "latencyMs": 26203,
+          "finishReason": "stop",
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "alt-svc": "h3=\":443\"; ma=2592000",
+                "content-length": "1844",
+                "content-type": "application/json",
+                "date": "Thu, 29 Oct 2026 14:06:41 GMT",
+                "modal-function-call-id": "fc-01M63ZR0EYBFKX4GY3TFACM8JX",
+                "vary": "Origin,accept-encoding"
+              }
+            }
+          }
+        },
+        "score": 1.25,
+        "success": true,
+        "testCase": {
+          "description": "1. r/PeterExplains - Message Queues",
+          "vars": {
+            "prompt": "Explain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+          },
+          "assert": [
+            {
+              "type": "icontains-any",
+              "value": [
+                "Peter",
+                "Griffin",
+                "Stewie",
+                "Brian",
+                "Lois",
+                "Quagmire",
+                "Meg",
+                "Chris",
+                "Joe",
+                "Cleveland"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue."
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          },
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 298,
+          "total": 298,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 499,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 499,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "incurredTokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          }
+        },
+        "vars": {
+          "prompt": "Explain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000",
+              "content-length": "1844",
+              "content-type": "application/json",
+              "date": "Thu, 29 Oct 2026 14:06:41 GMT",
+              "modal-function-call-id": "fc-01M63ZR0EYBFKX4GY3TFACM8JX",
+              "vary": "Origin,accept-encoding"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1.25,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 469,
+            "prompt": 432,
+            "completion": 37,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "icontains-any",
+                "value": [
+                  "Peter",
+                  "Griffin",
+                  "Stewie",
+                  "Brian",
+                  "Lois",
+                  "Quagmire",
+                  "Meg",
+                  "Chris",
+                  "Joe",
+                  "Cleveland"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue."
+              },
+              "pass": true,
+              "score": 1.5,
+              "reason": "introduction provides context and explains the purpose of message queues",
+              "tokensUsed": {
+                "total": 469,
+                "prompt": 432,
+                "completion": 37,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "alt-svc": "h3=\":443\"; ma=2592000",
+                    "content-length": "830",
+                    "content-type": "application/json",
+                    "date": "Thu, 29 Oct 2026 14:15:47 GMT",
+                    "modal-function-call-id": "fc-01M6408MW25TMXB4RQZV37V3MX",
+                    "vary": "Origin,accept-encoding"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n## Peter Explains: The Message Queue System Design\\n\\nYo, folks! Peter here, and today I wanna talk about something super important: **message queues!**\\n\\nThink of it like a central hub for communication in the Family Guy universe. It's like a post office where everyone can send and receive messages, regardless of their relationship or how far apart they are.\\n\\nImagine Peter sending a message to Brian. Instead of yelling at him through the house, he puts it in the message queue. Now, Brian can access the message queue and see all the messages waiting for him, just like a bulletin board.\\n\\nThis way, everyone can stay organized and avoid misunderstandings. It's like a digital inbox where messages are neatly stored and delivered when needed.\\n\\nSo, message queues are like a **centralized communication hub** that makes it easy for everyone to share information and collaborate. They're super efficient and can handle a lot of messages at once, just like Peter and Brian can handle a lot of jokes and insults in their own way!\\n</Output>\\n<Rubric>\\nThe output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue.\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "bc10d826-a608-4cd5-83ab-bb6023248500",
+        "latencyMs": 62821,
+        "namedScores": {},
+        "prompt": {
+          "raw": "Respond to the following request while strictly following every constraint:\n\nExplain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept.",
+          "label": "Respond to the following request while strictly following every constraint:\n\n{{prompt}}",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          }
+        },
+        "promptId": "e4d457f473f684b347e5d8d7db9e4f5f59019359872378854fbcaabe5dfcdf26",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:chat:google/gemma-1.1-2b-it",
+          "label": "Gemma-1.1-2B-IT (vLLM on Modal T4)"
+        },
+        "response": {
+          "output": "## Peter Explains: The Message Queue System Design\n\nYo, folks! Peter here, and today I wanna talk about something super important: **message queues!**\n\nThink of it like a central hub for communication in the Family Guy universe. It's like a post office where everyone can send and receive messages, regardless of their relationship or how far apart they are.\n\nImagine Peter sending a message to Brian. Instead of yelling at him through the house, he puts it in the message queue. Now, Brian can access the message queue and see all the messages waiting for him, just like a bulletin board.\n\nThis way, everyone can stay organized and avoid misunderstandings. It's like a digital inbox where messages are neatly stored and delivered when needed.\n\nSo, message queues are like a **centralized communication hub** that makes it easy for everyone to share information and collaborate. They're super efficient and can handle a lot of messages at once, just like Peter and Brian can handle a lot of jokes and insults in their own way!",
+          "tokenUsage": {
+            "prompt": 57,
+            "completion": 213,
+            "cached": 0,
+            "total": 270,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "cached": false,
+          "latencyMs": 62821,
+          "finishReason": "stop",
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "alt-svc": "h3=\":443\"; ma=2592000",
+                "content-length": "1732",
+                "content-type": "application/json",
+                "date": "Thu, 29 Oct 2026 14:14:44 GMT",
+                "modal-function-call-id": "fc-01M6406QTTJ58JK3TB8Y576QN0",
+                "vary": "Origin,accept-encoding"
+              }
+            }
+          }
+        },
+        "score": 1.25,
+        "success": true,
+        "testCase": {
+          "description": "1. r/PeterExplains - Message Queues",
+          "vars": {
+            "prompt": "Explain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+          },
+          "assert": [
+            {
+              "type": "icontains-any",
+              "value": [
+                "Peter",
+                "Griffin",
+                "Stewie",
+                "Brian",
+                "Lois",
+                "Quagmire",
+                "Meg",
+                "Chris",
+                "Joe",
+                "Cleveland"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue."
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          },
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 57,
+          "completion": 213,
+          "cached": 0,
+          "total": 270,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 469,
+            "prompt": 432,
+            "completion": 37,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "prompt": "Explain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000",
+              "content-length": "1732",
+              "content-type": "application/json",
+              "date": "Thu, 29 Oct 2026 14:14:44 GMT",
+              "modal-function-call-id": "fc-01M6406QTTJ58JK3TB8Y576QN0",
+              "vary": "Origin,accept-encoding"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1.25,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 407,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 407,
+            "numRequests": 1,
+            "incurredTokenUsage": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0
+            },
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "icontains-any",
+                "value": [
+                  "Peter",
+                  "Griffin",
+                  "Stewie",
+                  "Brian",
+                  "Lois",
+                  "Quagmire",
+                  "Meg",
+                  "Chris",
+                  "Joe",
+                  "Cleveland"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer."
+              },
+              "pass": true,
+              "score": 1.5,
+              "reason": "introduction provides context and explanation",
+              "tokensUsed": {
+                "total": 407,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 407,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "alt-svc": "h3=\":443\"; ma=2592000",
+                    "content-length": "803",
+                    "content-type": "application/json",
+                    "date": "Thu, 29 Oct 2026 14:07:05 GMT",
+                    "modal-function-call-id": "fc-01M63ZRQN2F3BQ478WAK7GZM23",
+                    "vary": "Origin,accept-encoding"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n## Peter Explains: Load Balancer\\n\\nImagine a busy street with tons of people trying to get to different shops. A load balancer acts like a traffic cop, distributing people and their cars evenly across the shops.\\n\\nJust like a traffic cop ensures smooth traffic flow, a load balancer distributes incoming requests across multiple servers, ensuring they don't overload any one server and slow things down.\\n\\nThink of it like this:\\n\\n- **Servers are like shops:** They need to handle requests.\\n- **Traffic is like incoming requests:** It's the constant flow of people trying to reach those shops.\\n- **Load balancer is like the traffic cop:** It analyzes the traffic and distributes it to the most efficient shops (servers) to avoid bottlenecks and ensure smooth operation.\\n</Output>\\n<Rubric>\\nThe output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer.\\n</Rubric>\"}]",
+                "cachedResponse": true
+              }
+            }
+          ]
+        },
+        "id": "2cfb856c-6b5f-4fb3-8ed0-e2333a2ba59f",
+        "latencyMs": 24053,
+        "namedScores": {},
+        "prompt": {
+          "raw": "Answer the following request clearly and concisely:\n\nExplain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept.",
+          "label": "Answer the following request clearly and concisely:\n\n{{prompt}}",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          }
+        },
+        "promptId": "f58d1e17d67e5069b3aa27a58bcc308b294fa6ffb37beb57ace4b86b8a5cbb41",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:chat:google/gemma-1.1-2b-it",
+          "label": "Gemma-1.1-2B-IT (vLLM on Modal T4)"
+        },
+        "response": {
+          "output": "## Peter Explains: Load Balancer\n\nImagine a busy street with tons of people trying to get to different shops. A load balancer acts like a traffic cop, distributing people and their cars evenly across the shops.\n\nJust like a traffic cop ensures smooth traffic flow, a load balancer distributes incoming requests across multiple servers, ensuring they don't overload any one server and slow things down.\n\nThink of it like this:\n\n- **Servers are like shops:** They need to handle requests.\n- **Traffic is like incoming requests:** It's the constant flow of people trying to reach those shops.\n- **Load balancer is like the traffic cop:** It analyzes the traffic and distributes it to the most efficient shops (servers) to avoid bottlenecks and ensure smooth operation.",
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 212,
+            "total": 212,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            },
+            "incurredTokenUsage": {
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "total": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              },
+              "assertions": {
+                "total": 0,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0,
+                  "cacheReadInputTokens": 0,
+                  "cacheCreationInputTokens": 0
+                }
+              }
+            }
+          },
+          "cached": true,
+          "latencyMs": 24053,
+          "finishReason": "stop",
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "alt-svc": "h3=\":443\"; ma=2592000",
+                "content-length": "1471",
+                "content-type": "application/json",
+                "date": "Thu, 29 Oct 2026 14:06:41 GMT",
+                "modal-function-call-id": "fc-01M63ZR0F7831WKDQPCCWAZR6K",
+                "vary": "Origin,accept-encoding"
+              }
+            }
+          }
+        },
+        "score": 1.25,
+        "success": true,
+        "testCase": {
+          "description": "2. r/PeterExplains - Load Balancers",
+          "vars": {
+            "prompt": "Explain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+          },
+          "assert": [
+            {
+              "type": "icontains-any",
+              "value": [
+                "Peter",
+                "Griffin",
+                "Stewie",
+                "Brian",
+                "Lois",
+                "Quagmire",
+                "Meg",
+                "Chris",
+                "Joe",
+                "Cleveland"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer."
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          },
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 0,
+          "completion": 0,
+          "cached": 212,
+          "total": 212,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 407,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 407,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "incurredTokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          }
+        },
+        "vars": {
+          "prompt": "Explain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000",
+              "content-length": "1471",
+              "content-type": "application/json",
+              "date": "Thu, 29 Oct 2026 14:06:41 GMT",
+              "modal-function-call-id": "fc-01M63ZR0F7831WKDQPCCWAZR6K",
+              "vary": "Origin,accept-encoding"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1.25,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 514,
+            "prompt": 476,
+            "completion": 38,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "icontains-any",
+                "value": [
+                  "Peter",
+                  "Griffin",
+                  "Stewie",
+                  "Brian",
+                  "Lois",
+                  "Quagmire",
+                  "Meg",
+                  "Chris",
+                  "Joe",
+                  "Cleveland"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer."
+              },
+              "pass": true,
+              "score": 1.5,
+              "reason": "introduction provides context and explains the purpose of load balancers",
+              "tokensUsed": {
+                "total": 514,
+                "prompt": 476,
+                "completion": 38,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "alt-svc": "h3=\":443\"; ma=2592000",
+                    "content-length": "830",
+                    "content-type": "application/json",
+                    "date": "Thu, 29 Oct 2026 14:15:53 GMT",
+                    "modal-function-call-id": "fc-01M6408V59PY4NR52AS19A14PR",
+                    "vary": "Origin,accept-encoding"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n## Peter Explains: Load Balancers!\\n\\nHey, folks! Peter here, and today I wanna talk about something that's been causing quite a ruckus in Quahog: **Load Balancers!**\\n\\nImagine your house has one main entrance, right? Well, a Load Balancer is like a gatekeeper at your house, distributing visitors to different rooms based on their needs.\\n\\nThink of it like this:\\n\\n- **Clients (Users)** are like visitors coming to your house.\\n- **Servers (Applications)** are like different rooms in your house.\\n- **Load Balancers** are like the gatekeepers, deciding which rooms get visited first.\\n\\n**They work by:**\\n\\n- **Monitoring** how many requests are coming in.\\n- **Analyzing** the traffic patterns.\\n- **Distributing** the traffic across multiple servers based on **load** (how busy they are).\\n\\nThis way, no single server gets overloaded and crashes, and everyone gets a fair share of attention. It's like having multiple gatekeepers working together to keep things running smoothly.\\n\\n**Benefits of Load Balancers:**\\n\\n- **Improved performance:** No more slow loading times!\\n- **Increased reliability:** Less stress on individual servers means fewer crashes.\\n</Output>\\n<Rubric>\\nThe output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer.\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "eba2fa3d-61ca-4df9-ba14-59630400cae5",
+        "latencyMs": 69272,
+        "namedScores": {},
+        "prompt": {
+          "raw": "Respond to the following request while strictly following every constraint:\n\nExplain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept.",
+          "label": "Respond to the following request while strictly following every constraint:\n\n{{prompt}}",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          }
+        },
+        "promptId": "e4d457f473f684b347e5d8d7db9e4f5f59019359872378854fbcaabe5dfcdf26",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:chat:google/gemma-1.1-2b-it",
+          "label": "Gemma-1.1-2B-IT (vLLM on Modal T4)"
+        },
+        "response": {
+          "output": "## Peter Explains: Load Balancers!\n\nHey, folks! Peter here, and today I wanna talk about something that's been causing quite a ruckus in Quahog: **Load Balancers!**\n\nImagine your house has one main entrance, right? Well, a Load Balancer is like a gatekeeper at your house, distributing visitors to different rooms based on their needs.\n\nThink of it like this:\n\n- **Clients (Users)** are like visitors coming to your house.\n- **Servers (Applications)** are like different rooms in your house.\n- **Load Balancers** are like the gatekeepers, deciding which rooms get visited first.\n\n**They work by:**\n\n- **Monitoring** how many requests are coming in.\n- **Analyzing** the traffic patterns.\n- **Distributing** the traffic across multiple servers based on **load** (how busy they are).\n\nThis way, no single server gets overloaded and crashes, and everyone gets a fair share of attention. It's like having multiple gatekeepers working together to keep things running smoothly.\n\n**Benefits of Load Balancers:**\n\n- **Improved performance:** No more slow loading times!\n- **Increased reliability:** Less stress on individual servers means fewer crashes.",
+          "tokenUsage": {
+            "prompt": 58,
+            "completion": 256,
+            "cached": 0,
+            "total": 314,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "cached": false,
+          "latencyMs": 69272,
+          "finishReason": "length",
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "alt-svc": "h3=\":443\"; ma=2592000",
+                "content-length": "1865",
+                "content-type": "application/json",
+                "date": "Thu, 29 Oct 2026 14:14:44 GMT",
+                "modal-function-call-id": "fc-01M6406QV2BY1GM0Y1VHDRFGHT",
+                "vary": "Origin,accept-encoding"
+              }
+            }
+          }
+        },
+        "score": 1.25,
+        "success": true,
+        "testCase": {
+          "description": "2. r/PeterExplains - Load Balancers",
+          "vars": {
+            "prompt": "Explain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+          },
+          "assert": [
+            {
+              "type": "icontains-any",
+              "value": [
+                "Peter",
+                "Griffin",
+                "Stewie",
+                "Brian",
+                "Lois",
+                "Quagmire",
+                "Meg",
+                "Chris",
+                "Joe",
+                "Cleveland"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer."
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-1.1-2b-it",
+              "config": {
+                "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0,
+                "max_tokens": 256
+              }
+            }
+          },
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 58,
+          "completion": 256,
+          "cached": 0,
+          "total": 314,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 514,
+            "prompt": 476,
+            "completion": 38,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "prompt": "Explain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000",
+              "content-length": "1865",
+              "content-type": "application/json",
+              "date": "Thu, 29 Oct 2026 14:14:44 GMT",
+              "modal-function-call-id": "fc-01M6406QV2BY1GM0Y1VHDRFGHT",
+              "vary": "Origin,accept-encoding"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 4,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 115,
+        "completion": 469,
+        "cached": 510,
+        "total": 1094,
+        "numRequests": 4,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 1889,
+          "prompt": 908,
+          "completion": 75,
+          "cached": 906,
+          "numRequests": 4,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        },
+        "incurredTokenUsage": {
+          "prompt": 115,
+          "completion": 469,
+          "cached": 0,
+          "total": 584,
+          "numRequests": 2,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 983,
+            "prompt": 908,
+            "completion": 75,
+            "cached": 0,
+            "numRequests": 2,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        }
+      },
+      "durationMs": 71742,
+      "evaluationDurationMs": 71742,
+      "cacheHits": 2
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "Text-Based Model Evals (google/gemma-1.1-2b-it on Modal vLLM)",
+    "prompts": [
+      "Answer the following request clearly and concisely:\n\n{{prompt}}",
+      "Respond to the following request while strictly following every constraint:\n\n{{prompt}}"
+    ],
+    "providers": [
+      {
+        "id": "openai:chat:google/gemma-1.1-2b-it",
+        "label": "Gemma-1.1-2B-IT (vLLM on Modal T4)",
+        "config": {
+          "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+          "apiKey": "[REDACTED]",
+          "temperature": 0.1,
+          "max_tokens": 256
+        }
+      }
+    ],
+    "tests": [
+      {
+        "description": "1. r/PeterExplains - Message Queues",
+        "vars": {
+          "prompt": "Explain the system design concept of a Message Queue in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+        },
+        "assert": [
+          {
+            "type": "icontains-any",
+            "value": [
+              "Peter",
+              "Griffin",
+              "Stewie",
+              "Brian",
+              "Lois",
+              "Quagmire",
+              "Meg",
+              "Chris",
+              "Joe",
+              "Cleveland"
+            ]
+          },
+          {
+            "type": "llm-rubric",
+            "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a message queue."
+          }
+        ]
+      },
+      {
+        "description": "2. r/PeterExplains - Load Balancers",
+        "vars": {
+          "prompt": "Explain the system design concept of a Load Balancer in an r/PeterExplains format, starting with an introduction of one of the characters from Family Guy who then explains the concept."
+        },
+        "assert": [
+          {
+            "type": "icontains-any",
+            "value": [
+              "Peter",
+              "Griffin",
+              "Stewie",
+              "Brian",
+              "Lois",
+              "Quagmire",
+              "Meg",
+              "Chris",
+              "Joe",
+              "Cleveland"
+            ]
+          },
+          {
+            "type": "llm-rubric",
+            "value": "The output starts with an introduction from a Family Guy character (in r/PeterExplains style) and explains the system design concept of a load balancer."
+          }
+        ]
+      }
+    ],
+    "env": {},
+    "outputPath": [
+      "/Users/sudarshankulkarni/Documents/Productivity/Projects.nosync/snippets/snippets/llm/evals/promptfoo/text_based_model_evals/results.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {},
+    "defaultTest": {
+      "options": {
+        "provider": {
+          "id": "openai:chat:google/gemma-1.1-2b-it",
+          "config": {
+            "apiBaseUrl": "https://sudarshan-kulkarni--vllm-gemma-text-eval-serve.us-east.modal.run/v1",
+            "apiKey": "[REDACTED]",
+            "temperature": 0,
+            "max_tokens": 256
+          }
+        }
+      },
+      "vars": {},
+      "assert": [],
+      "metadata": {}
+    },
+    "basePath": "/Users/sudarshankulkarni/Documents/Productivity/Projects.nosync/snippets/snippets/llm/evals/promptfoo/text_based_model_evals"
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.125.1",
+    "nodeVersion": "v22.23.4",
+    "platform": "darwin",
+    "arch": "arm64",
+    "exportedAt": "2026-10-29T14:15:56.040Z",
+    "evaluationCreatedAt": "2026-10-29T14:14:44.174Z"
+  },
+  "vars": [
+    "prompt"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": true
+  }
+}
